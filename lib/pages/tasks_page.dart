@@ -63,28 +63,33 @@ class _TasksPageState extends State<TasksPage> {
   }
 
   Future<void> _showConfirmationDialog(TaskModel task, int index) async {
-    TextEditingController _textController = TextEditingController();
+    final TextEditingController _textController = TextEditingController();
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-             const Text(
+              const Text(
                 "Как подтвердить задание?",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-                  color: Colors.black, // ← добавлено
+                  color: Colors.red,
                 ),
               ),
-
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () async {
@@ -92,27 +97,32 @@ class _TasksPageState extends State<TasksPage> {
                   final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
                   if (image != null) {
                     await _confirmTask(task, index, context);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Задание '${task.title}' подтверждено фото!"),
-                      backgroundColor: Colors.green,
-                    ));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.white,
+                        content: Text(
+                          "Задание '${task.title}' подтверждено фото!",
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    );
                   }
                 },
                 icon: const Icon(Icons.photo),
                 label: const Text("Подтвердить фото"),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.red,
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: _textController,
                 maxLines: 3,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.red),
                 decoration: const InputDecoration(
                   hintText: "Опиши выполнение задания",
-                  hintStyle: TextStyle(color: Colors.black54),
+                  hintStyle: TextStyle(color: Colors.red),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -122,17 +132,22 @@ class _TasksPageState extends State<TasksPage> {
                   if (_textController.text.trim().isNotEmpty) {
                     await _confirmTask(task, index, context);
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Задание '${task.title}' подтверждено текстом!"),
-                      backgroundColor: Colors.green,
-                    ));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.white,
+                        content: Text(
+                          "Задание '${task.title}' подтверждено текстом!",
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    );
                   }
                 },
                 icon: const Icon(Icons.check),
                 label: const Text("Подтвердить текстом"),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.red,
                 ),
               ),
             ],
@@ -145,8 +160,12 @@ class _TasksPageState extends State<TasksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red.shade900,
-      appBar: AppBar(title: const Text("Задания")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: const Text("Задания", style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
       body: ListView.separated(
         padding: const EdgeInsets.all(12),
         separatorBuilder: (_, __) => const SizedBox(height: 12),
@@ -156,28 +175,31 @@ class _TasksPageState extends State<TasksPage> {
           return Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.red.shade300,
+              color: Colors.white,
+              border: Border.all(color: Colors.red),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(task.title,
-                    style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(
+                  task.title,
+                  style: const TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("${task.points} балл(ов)", style: const TextStyle(color: Colors.white)),
+                    Text("${task.points} балл(ов)", style: const TextStyle(color: Colors.red)),
                     task.isCompleted
-                        ? const Icon(Icons.check_circle, color: Colors.greenAccent)
+                        ? const Icon(Icons.check_circle, color: Colors.green)
                         : ElevatedButton.icon(
                       onPressed: () => _showConfirmationDialog(task, index),
                       icon: const Icon(Icons.check),
                       label: const Text("Подтвердить"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.red,
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
                       ),
                     ),
                   ],

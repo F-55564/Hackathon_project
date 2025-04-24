@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
-import 'profile_page.dart';
+import 'menu_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -30,7 +30,6 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                // Здесь позже можно сохранить имя
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (_) => const HomePage()),

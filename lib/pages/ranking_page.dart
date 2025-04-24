@@ -35,26 +35,23 @@ class _RankingPageState extends State<RankingPage> {
         return b['points'].compareTo(a['points']);
       } else {
         const rankOrder = {'S': 3, 'A': 2, 'B': 1, 'C': 0};
-        return rankOrder[b['rank'].split(',')[0]]!.compareTo(rankOrder[a['rank'].split(',')[0]]!);
+        return rankOrder[b['rank'].split(',')[0]]!
+            .compareTo(rankOrder[a['rank'].split(',')[0]]!);
       }
     });
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'Рейтинг студентов',
-          style: TextStyle(color: Colors.white),
-        ),
+        backgroundColor: Colors.red.shade800,
+        title: const Text('Рейтинг студентов', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
             icon: const Icon(Icons.card_giftcard, color: Colors.white),
             onPressed: _showRewardsDialog,
-          ),
+          )
         ],
       ),
-      backgroundColor: const Color(0xFFB71C1C),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -71,15 +68,18 @@ class _RankingPageState extends State<RankingPage> {
                     decoration: _boxDecoration(),
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Text('${index + 1}', style: const TextStyle(color: Colors.red)),
+                        backgroundColor: Colors.red.shade800,
+                        child: Text(
+                          '${index + 1}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
-                      title: Text(student['name'], style: const TextStyle(color: Colors.white)),
+                      title: Text(student['name'], style: const TextStyle(color: Colors.black)),
                       subtitle: Text(
                         _sortByPoints
                             ? 'Очки: ${student['points']}'
                             : 'Ранг: ${student['rank']}',
-                        style: const TextStyle(color: Colors.white70),
+                        style: const TextStyle(color: Colors.black54),
                       ),
                       trailing: index < 3
                           ? const Icon(Icons.emoji_events, color: Colors.amber)
@@ -92,7 +92,7 @@ class _RankingPageState extends State<RankingPage> {
             const SizedBox(height: 10),
             const Text(
               '🏆 В конце каждого месяца топ-3 получают сезонные награды!',
-              style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
+              style: TextStyle(color: Colors.black87, fontStyle: FontStyle.italic),
               textAlign: TextAlign.center,
             )
           ],
@@ -110,9 +110,9 @@ class _RankingPageState extends State<RankingPage> {
           borderRadius: BorderRadius.circular(12),
           selectedColor: Colors.white,
           fillColor: Colors.red.shade800,
-          borderColor: Colors.white,
+          borderColor: Colors.red.shade800,
           selectedBorderColor: Colors.amber,
-          color: Colors.white70,
+          color: Colors.red,
           children: const [
             Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("По очкам")),
             Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text("По рангу")),
@@ -129,10 +129,17 @@ class _RankingPageState extends State<RankingPage> {
 
   BoxDecoration _boxDecoration() {
     return BoxDecoration(
-      color: const Color(0xCCe53935),
+      color: Colors.grey.shade100,
       borderRadius: BorderRadius.circular(16),
-      border: Border.all(color: Colors.white, width: 2),
-      boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.5), blurRadius: 8, spreadRadius: 1)],
+      border: Border.all(color: Colors.red.shade300, width: 1.5),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          blurRadius: 6,
+          spreadRadius: 1,
+          offset: const Offset(0, 2),
+        )
+      ],
     );
   }
 
@@ -140,24 +147,24 @@ class _RankingPageState extends State<RankingPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.red.shade900,
-        title: const Text('Награды месяца', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.white,
+        title: const Text('Награды месяца', style: TextStyle(color: Colors.red)),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('🥇 Топ 1: Чип от лифта', style: TextStyle(color: Colors.amber)),
             SizedBox(height: 8),
-            Text('🥈 Топ 2: Кастомизация приложения', style: TextStyle(color: Colors.white)),
+            Text('🥈 Топ 2: Кастомизация приложения', style: TextStyle(color: Colors.black)),
             SizedBox(height: 8),
-            Text('🥉 Топ 3: Тёмный стиль приложения', style: TextStyle(color: Colors.white)),
+            Text('🥉 Топ 3: Тёмный стиль приложения', style: TextStyle(color: Colors.black)),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Закрыть', style: TextStyle(color: Colors.white)),
-          )
+            child: const Text('Закрыть', style: TextStyle(color: Colors.red)),
+          ),
         ],
       ),
     );

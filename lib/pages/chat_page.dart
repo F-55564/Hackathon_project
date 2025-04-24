@@ -16,17 +16,19 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _sendMessage() async {
     if (_controller.text.isEmpty) return;
 
+    final userText = _controller.text;
+
     setState(() {
       _messages.add({
         'sender': 'user',
-        'message': _controller.text,
+        'message': userText,
       });
     });
 
     _controller.clear();
 
     try {
-      final response = await _getChatGPTResponse(_controller.text);
+      final response = await _getChatGPTResponse(userText);
 
       if (response != null) {
         setState(() {
@@ -47,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<String?> _getChatGPTResponse(String userMessage) async {
-    final apiKey = 'YOUR_OPENAI_API_KEY'; // Вставь свой ключ API
+    final apiKey = 'YOUR_OPENAI_API_KEY'; // Замени на свой ключ
     final url = Uri.parse('https://api.openai.com/v1/completions');
 
     final response = await http.post(
@@ -68,19 +70,19 @@ class _ChatPageState extends State<ChatPage> {
       final data = json.decode(response.body);
       return data['choices'][0]['text'].trim();
     } else {
-      throw Exception('Failed to load response');
+      throw Exception('Ошибка API');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.red.shade800,
         elevation: 0,
-        title: const Text('Чат GPT-3', style: TextStyle(color: Colors.white)),
+        title: const Text('Nomad Jarvis', style: TextStyle(color: Colors.white)),
       ),
-      backgroundColor: const Color(0xFFB71C1C),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -94,25 +96,32 @@ class _ChatPageState extends State<ChatPage> {
                   return Container(
                     margin: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      color: isUserMessage ? Colors.white : Colors.red.shade800,
+                      color: isUserMessage ? Colors.red.shade100 : Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white, width: 2),
+                      border: Border.all(
+                        color: isUserMessage ? Colors.red.shade300 : Colors.grey.shade400,
+                        width: 1.5,
+                      ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.5),
-                          blurRadius: 8,
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 6,
                           spreadRadius: 1,
+                          offset: const Offset(0, 2),
                         )
                       ],
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Text(isUserMessage ? 'Ты' : 'GPT', style: const TextStyle(color: Colors.red)),
+                        backgroundColor: Colors.red.shade800,
+                        child: Text(
+                          isUserMessage ? 'Ты' : 'J',
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                       title: Text(
                         message['message'] ?? '',
-                        style: TextStyle(color: isUserMessage ? Colors.black : Colors.white),
+                        style: const TextStyle(color: Colors.black87),
                       ),
                     ),
                   );
@@ -134,12 +143,12 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: TextField(
               controller: _controller,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.red.shade800,
+                fillColor: Colors.grey.shade200,
                 hintText: 'Введите сообщение...',
-                hintStyle: const TextStyle(color: Colors.white70),
+                hintStyle: const TextStyle(color: Colors.black54),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
@@ -147,8 +156,9 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
           ),
+          const SizedBox(width: 8),
           IconButton(
-            icon: const Icon(Icons.send, color: Colors.white),
+            icon: Icon(Icons.send, color: Colors.red.shade800),
             onPressed: _sendMessage,
           ),
         ],

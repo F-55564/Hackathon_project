@@ -1,12 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../point_providers.dart';
 import 'login_page.dart';
-import 'settings_page.dart';
-import 'friends_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -34,12 +30,11 @@ class ProfilePage extends StatelessWidget {
     final String tipOfDay = (tips..shuffle()).first;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFB71C1C),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.red.shade900.withOpacity(0.8),
         title: const Text("Профиль", style: TextStyle(color: Colors.white)),
       ),
-      drawer: _buildDrawer(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -60,7 +55,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       const Text(
-                        'Иван Студент',
+                        'Айтенир',
                         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
@@ -157,46 +152,6 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Drawer _buildDrawer(BuildContext context) {
-    return Drawer(
-      backgroundColor: Colors.red.shade900.withOpacity(0.95),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.red,
-            ),
-            child: Text('Меню', style: TextStyle(color: Colors.white, fontSize: 24)),
-          ),
-          ListTile(
-            leading: const Icon(Icons.person, color: Colors.white),
-            title: const Text('Профиль', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.group, color: Colors.white),
-            title: const Text('Друзья', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const FriendsPage()));
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings, color: Colors.white),
-            title: const Text('Настройки', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   String _getRankImage(int currentPoints) {
     if (currentPoints >= 150) {
       return 'assets/image/platinum.png';
@@ -287,7 +242,7 @@ class ProfilePage extends StatelessWidget {
         color: Colors.white.withOpacity(0.9),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, spreadRadius: 2),
+          BoxShadow(color: Colors.red.shade900.withOpacity(0.5), blurRadius: 8, spreadRadius: 2),
         ],
       ),
       child: Row(
@@ -327,8 +282,8 @@ class ProfilePage extends StatelessWidget {
     return BoxDecoration(
       color: const Color(0xCCe53935),
       borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: Colors.white, width: 2),
-      boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.6), blurRadius: 10, spreadRadius: 2)],
+      border: Border.all(color: Colors.red.shade900, width: 2),
+      boxShadow: [BoxShadow(color: Colors.red.shade900.withOpacity(0.6), blurRadius: 10, spreadRadius: 2)],
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'profile_page.dart';
+import 'menu_page.dart';
 import 'tasks_page.dart';
 import 'ranking_page.dart';
 import 'chat_page.dart';
@@ -15,10 +15,10 @@ class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
 
   final List<Widget> pages = [
-    ProfilePage(),
+    const MenuPage(),
     const TasksPage(),
-    RankingPage(),
-    ChatPage(),
+    const RankingPage(),
+    const ChatPage(),
   ];
 
   @override
@@ -36,8 +36,8 @@ class _HomePageState extends State<HomePage> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Профиль',
+            icon: Icon(Icons.menu_book),
+            label: 'Главное меню',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment),

@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Nomad App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFF1A1A1A), // тёмный фон
+        scaffoldBackgroundColor: const Color(0xFF1A1A1A),
         fontFamily: 'Roboto',
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.red.shade900.withOpacity(0.8),

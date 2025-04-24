@@ -28,7 +28,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/image/bronze.png
+    - assets/image/
     - assets/image/profile.png
 
 

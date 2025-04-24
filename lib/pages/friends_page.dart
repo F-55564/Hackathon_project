@@ -47,7 +47,13 @@ class _FriendsPageState extends State<FriendsPage> {
                   style: const TextStyle(color: Colors.black),
                   decoration: const InputDecoration(
                     hintText: "Введите имя друга",
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: TextStyle(color: Colors.black54),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
                   ),
                   onChanged: (value) {
                     query = value.trim();
@@ -68,8 +74,8 @@ class _FriendsPageState extends State<FriendsPage> {
                 const SizedBox(height: 10),
                 ...suggestions.map((user) {
                   return ListTile(
-                    leading: CircleAvatar(
-                        backgroundImage: NetworkImage(user["image"]!)),
+                    leading:
+                    CircleAvatar(backgroundImage: NetworkImage(user["image"]!)),
                     title: Text(user["name"]!),
                     onTap: () {
                       _addFriend(user);
@@ -98,12 +104,12 @@ class _FriendsPageState extends State<FriendsPage> {
         title: const Text("Друзья"),
         backgroundColor: Colors.red.shade900,
       ),
-      backgroundColor: const Color(0xFFB71C1C),
+      backgroundColor: Colors.white,
       body: _friends.isEmpty
           ? const Center(
         child: Text(
           "У тебя пока нет друзей 😢",
-          style: TextStyle(color: Colors.white70, fontSize: 16),
+          style: TextStyle(color: Colors.black54, fontSize: 16),
         ),
       )
           : ListView.builder(
@@ -138,8 +144,8 @@ class _FriendsPageState extends State<FriendsPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        child: const Icon(Icons.person_add, color: Colors.red),
+        backgroundColor: Colors.red,
+        child: const Icon(Icons.person_add, color: Colors.white),
         onPressed: _showAddFriendDialog,
       ),
     );
