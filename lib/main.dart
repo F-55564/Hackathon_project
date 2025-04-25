@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon_project_x/providers/currency_provider.dart';
 import 'package:provider/provider.dart';
 import 'pages/login_page.dart';
 import 'point_providers.dart';
@@ -8,6 +9,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PointsProvider()),
+        ChangeNotifierProvider(create: (_) => CurrencyProvider()),
+
       ],
       child: const MyApp(),
     ),

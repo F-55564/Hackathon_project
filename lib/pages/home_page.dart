@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'menu_page.dart';
 import 'tasks_page.dart';
 import 'ranking_page.dart';
-import 'chat_page.dart';
+import 'raspisanie_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     const MenuPage(),
     const TasksPage(),
     const RankingPage(),
-    const ChatPage(),
+    const SchedulePage(),
   ];
 
   @override
@@ -27,8 +27,8 @@ class _HomePageState extends State<HomePage> {
       body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
-        selectedItemColor: Colors.indigo,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.red.shade800, // Активная иконка
+        unselectedItemColor: Colors.red.shade300, // Неактивные иконки
         onTap: (int index) {
           setState(() {
             selectedIndex = index;
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
+            icon: Icon(Icons.home),
             label: 'Главное меню',
           ),
           BottomNavigationBarItem(

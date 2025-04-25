@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'chat_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -7,8 +10,10 @@ class FriendsPage extends StatefulWidget {
   State<FriendsPage> createState() => _FriendsPageState();
 }
 
+
+
 class _FriendsPageState extends State<FriendsPage> {
-  final List<Map<String, String>> _friends = [];
+  List<Map<String, String>> _friends = [];
 
   final List<Map<String, String>> _availableUsers = [
     {"name": "Эрбол", "image": "https://i.pravatar.cc/150?img=1"},
@@ -19,11 +24,12 @@ class _FriendsPageState extends State<FriendsPage> {
     {"name": "Сагынай", "image": "https://i.pravatar.cc/150?img=6"},
   ];
 
-  void _addFriend(Map<String, String> user) {
+  void _addFriend(Map<String, String> user) async {
     if (!_friends.any((f) => f['name'] == user['name'])) {
       setState(() {
         _friends.add(user);
       });
+      await _saveFriends();
     }
   }
 
@@ -37,7 +43,9 @@ class _FriendsPageState extends State<FriendsPage> {
 
         return StatefulBuilder(
           builder: (context, setState) => AlertDialog(
-            title: const Text("Добавить друга"),
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            title: const Text("Добавить друга", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -87,14 +95,42 @@ class _FriendsPageState extends State<FriendsPage> {
             ),
             actions: [
               TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text("Закрыть"),
+                child: const Text("Закрыть", style: TextStyle(fontWeight: FontWeight.bold)),
               ),
             ],
           ),
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFriends();
+  }
+
+  Future<void> _saveFriends() async {
+    final prefs = await SharedPreferences.getInstance();
+    final friendsJson = jsonEncode(_friends);
+    await prefs.setString('friends_list', friendsJson);
+  }
+
+  Future<void> _loadFriends() async {
+    final prefs = await SharedPreferences.getInstance();
+    final friendsJson = prefs.getString('friends_list');
+    if (friendsJson != null) {
+      final List<dynamic> decoded = jsonDecode(friendsJson);
+      setState(() {
+        _friends = decoded.map((e) => Map<String, String>.from(e)).toList();
+      });
+    }
   }
 
   @override
@@ -132,10 +168,14 @@ class _FriendsPageState extends State<FriendsPage> {
               trailing: IconButton(
                 icon: const Icon(Icons.message, color: Colors.red),
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content:
-                        Text('Функция чата пока не реализована')),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ChatPage(
+                        friendName: friend["name"]!,
+                        friendImage: friend["image"]!,
+                      ),
+                    ),
                   );
                 },
               ),

@@ -23,4 +23,16 @@ class PointsProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('user_points', _points);
   }
+
+  Future<void> spendPoints(int cost) async {
+    if (_points >= cost) {
+      _points -= cost;
+      notifyListeners();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('user_points', _points);
+    } else {
+      debugPrint('Недостаточно баллов для списания.');
+    }
+  }
 }

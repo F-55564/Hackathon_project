@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../point_providers.dart';
-import 'login_page.dart';
+
+import 'event_page.dart';
 import 'settings_page.dart';
 import 'friends_page.dart';
 import 'profile_page.dart';
+import 'shop_page.dart';
+import 'person_info_page.dart';
+import 'login_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -58,20 +62,84 @@ class MenuPage extends StatelessWidget {
                     crossAxisSpacing: 12,
                     childAspectRatio: 0.9,
                     children: [
-                      _gridCard("assets/news1.jpg", "Новый ивент"),
-                      _gridCard("assets/news2.jpg", "Гача обновление"),
-                      _gridCard("assets/news3.jpg", "Патч 1.2.5"),
-                      _gridCard("assets/news4.jpg", "Арена"),
+                      _eventButton(
+                        context,
+                        'Актуальное',
+                        'Самое важное и актуальное событие! Здесь будет подробная информация.',
+                        'assets/image/hackaton.png',
+                      ),
+                      _eventButton(
+                        context,
+                        'Недавнее событие',
+                        'Недавно прошедшее событие. Здесь можно узнать детали.',
+                        'assets/image/news2.png',
+                      ),
+                      _eventButton(
+                        context,
+                        'Завершённое событие',
+                        'Это событие уже завершилось, но его итоги можно посмотреть здесь.',
+                        'assets/image/news3.png',
+                      ),
+                      _eventButton(
+                        context,
+                        'Уже не актуальное',
+                        'Это событие уже не актуально. Но вы всегда можете посмотреть архив.',
+                        'assets/image/news4.png',
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24),
-                  _wideBannerCard("assets/news5.jpg", "Награды за вход", "Не забудь получить ежедневный бонус"),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    splashColor: Colors.red.withOpacity(0.2),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PersonInfoPage(
+                            title: "Директор",
+                            imagePath: "assets/image/news5.png",
+                            description: "Жумукова Айзада Сулаймановна — директор Nomad College. Опытный руководитель, вдохновляющий студентов и преподавателей на новые достижения.",
+                          ),
+                        ),
+                      );
+                    },
+                    child: _wideBannerCard("assets/image/news5.png", "Директор", "Жумукова Айзада Сулаймановна"),
+                  ),
                   const SizedBox(height: 16),
-                  _angledCard("assets/news6.jpg", "Секретный режим", "Новый скрытый ивент доступен ограниченно!"),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    splashColor: Colors.red.withOpacity(0.2),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PersonInfoPage(
+                            title: "Преподаватели",
+                            imagePath: "assets/image/news6.png",
+                            description: "Наши преподаватели — профессионалы своего дела, которые всегда готовы поддержать и вдохновить студентов на успех!",
+                          ),
+                        ),
+                      );
+                    },
+                    child: _angledCard("assets/image/news6.png", "Преподаватели", "Самые лучшие!"),
+                  ),
                   const SizedBox(height: 16),
-                  _cornerCutCard("assets/news7.jpg", "PvP битвы", "Соревнуйся и поднимайся в рейтинге"),
-                  const SizedBox(height: 16),
-                  _highlightCard("assets/news8.jpg", "Эксклюзив!", "Ограниченная акция на редкие предметы"),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PersonInfoPage(
+                            title: "Направления",
+                            imagePath: "assets/image/news8.png",
+                            description: "В колледже представлены современные направления и профессии, востребованные на рынке труда.",
+                          ),
+                        ),
+                      );
+                    },
+                    child: _highlightCard("assets/image/news8.png", "Направления!", "Професии"),
+                  ),
                   const SizedBox(height: 32),
                 ],
               ),
@@ -82,21 +150,48 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  Widget _gridCard(String image, String title) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.red.shade50,
-      clipBehavior: Clip.antiAlias,
+
+  Widget _eventButton(BuildContext context, String title, String description, String imagePath) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red.shade50,
+        foregroundColor: Colors.red.shade800,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 3,
+        padding: EdgeInsets.zero,
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => EventPage(
+              title: title,
+              imagePath: imagePath,
+              description: description,
+            ),
+          ),
+        );
+      },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Image.asset(image, fit: BoxFit.cover, width: double.infinity)),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+            ),
+          ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.red.shade800),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -160,31 +255,6 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  Widget _cornerCutCard(String image, String title, String desc) {
-    return ClipPath(
-      clipper: CornerClipper(),
-      child: Container(
-        color: Colors.red.shade50,
-        child: Column(
-          children: [
-            Image.asset(image, width: double.infinity, height: 150, fit: BoxFit.cover),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.red.shade800)),
-                  const SizedBox(height: 4),
-                  Text(desc, style: TextStyle(color: Colors.red.shade700)),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _highlightCard(String image, String title, String desc) {
     return Container(
       decoration: BoxDecoration(
@@ -224,32 +294,30 @@ class MenuPage extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.red.shade300),
+            decoration: BoxDecoration(color: Colors.red.shade800),
             child: const Text('Меню', style: TextStyle(color: Colors.white, fontSize: 24)),
           ),
-          _drawerItem(Icons.person, "Профиль", context, const ProfilePage()),
-          _drawerItem(Icons.group, "Друзья", context, const FriendsPage()),
-          _drawerItem(Icons.settings, "Настройки", context, const SettingsPage()),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text('Выйти', style: TextStyle(color: Colors.red)),
-            onTap: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginPage()));
-            },
-          ),
+          _drawerItem(Icons.person, "Профиль", () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfilePage()))),
+          _drawerItem(Icons.group, "Друзья", () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FriendsPage()))),
+          _drawerItem(Icons.settings, "Настройки", () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()))),
+          _drawerItem(Icons.store, "Магазин", () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ShopPage()))),
+          _drawerItem(Icons.logout, "Выход", () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const LoginPage()),
+                  (route) => false,
+            );
+          }),
         ],
       ),
     );
   }
 
-  ListTile _drawerItem(IconData icon, String label, BuildContext context, Widget page) {
+  ListTile _drawerItem(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: Colors.red.shade800),
-      title: Text(label, style: TextStyle(color: Colors.red.shade800)),
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (_) => page));
-      },
+      title: Text(title, style: TextStyle(color: Colors.red.shade800)),
+      onTap: onTap,
     );
   }
 }
@@ -257,17 +325,16 @@ class MenuPage extends StatelessWidget {
 class CornerClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    const cutSize = 30.0;
     final path = Path();
-    path.moveTo(0, 0);
-    path.lineTo(size.width - cutSize, 0);
-    path.lineTo(size.width, cutSize);
-    path.lineTo(size.width, size.height);
+    path.moveTo(0, 20);
     path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+    path.lineTo(20, 0);
     path.close();
     return path;
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

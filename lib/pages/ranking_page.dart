@@ -148,12 +148,13 @@ class _RankingPageState extends State<RankingPage> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.white,
-        title: const Text('Награды месяца', style: TextStyle(color: Colors.red)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Награды месяца', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('🥇 Топ 1: Чип от лифта', style: TextStyle(color: Colors.amber)),
+            Text('🥇 Топ 1: Платиновый никнейм', style: TextStyle(color: Colors.amber)),
             SizedBox(height: 8),
             Text('🥈 Топ 2: Кастомизация приложения', style: TextStyle(color: Colors.black)),
             SizedBox(height: 8),
@@ -162,8 +163,13 @@ class _RankingPageState extends State<RankingPage> {
         ),
         actions: [
           TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.red,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
             onPressed: () => Navigator.pop(context),
-            child: const Text('Закрыть', style: TextStyle(color: Colors.red)),
+            child: const Text('Закрыть', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
